@@ -105,6 +105,10 @@ class WhiteCircleCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for(var i = 1; i < circles.length; ++i) {
+
+      //on every iteration of the paint method we can tell to leave the area for the circle
+      _maskCircle(canvas, size, circles[i-1].radius);
+
       whitePaint.color = overlayColor.withAlpha(circles[i-1].alpha); //this is giving us the ring
 
       //to fill the circle
@@ -114,6 +118,19 @@ class WhiteCircleCustomPainter extends CustomPainter {
         whitePaint,
       );
     }
+  }
+
+  _maskCircle(Canvas canvas, Size size, double radius){
+    Path clippedCircle = new Path();
+    clippedCircle.fillType = PathFillType.evenOdd;
+    clippedCircle.addRect(new Rect.fromLTWH(0.0, 0.0, size.height, size.height));
+    clippedCircle.addOval(
+      new Rect.fromCircle(
+        center: new Offset(0.0, size.height/2) + centerOffset,
+        radius: radius,
+      ),
+    );
+    canvas.clipPath(clippedCircle); //this says you're allowed to paint anywhere on the screen except the circle
   }
 
   @override
