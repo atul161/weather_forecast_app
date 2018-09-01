@@ -29,6 +29,9 @@ flutter:
   assets:
     - assets/rain.jpg
     - assets/rain_blurred.jpg
+    - assets/ic_rain.svg
+    - assets/ic_cloudy.png
+    - assets/ic_sunny.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

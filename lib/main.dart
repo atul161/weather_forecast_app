@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_forecast_app/forecast/background/app_bar.dart';
 import 'package:weather_forecast_app/forecast/background/background_with_rings.dart';
+import 'package:weather_forecast_app/forecast/background/forecast.dart';
 import 'package:weather_forecast_app/forecast/background/week_drawer.dart';
 import 'package:weather_forecast_app/generic_widget/sliding_drawer.dart';
 
@@ -47,8 +48,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     return new Scaffold(
       body: new Stack(
         children: <Widget>[
-          new BackgroundWithRings(),
-
+          new Forecast(),
           //next in the stack we are going to have app bar
           new Positioned( //position widgets are made for stack and they allow us to define the relationship the child widget has with the stack
             top: 0.0,
