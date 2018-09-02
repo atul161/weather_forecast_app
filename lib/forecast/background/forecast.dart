@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 import 'package:weather_forecast_app/forecast/background/background_with_rings.dart';
+import 'package:weather_forecast_app/forecast/background/radial_list.dart';
+import 'package:weather_forecast_app/forecast/background/rain.dart';
 
 class Forecast extends StatelessWidget {
 
-  Widget _tempratureText(){
+  RadialListViewModel radialList;
+  SlidingRadialListController slidingListController;
+
+  Forecast({
+    @required this.radialList,
+    @required this.slidingListController,
+  });
+
+  Widget _temperatureText() {
     return new Align(
-      alignment: Alignment.centerLeft, //this won't do the work hence we need some padding
+      alignment: Alignment.centerLeft,
       child: new Padding(
-        padding: const EdgeInsets.only(top: 150.0,left: 10.0),
+        padding: const EdgeInsets.only(top: 150.0, left: 10.0),
         child: new Text(
-          '73°',
+          '68°',
           style: new TextStyle(
-            color: Colors.blue,
+            color: Colors.white,
             fontSize: 80.0,
           ),
         ),
@@ -25,10 +36,14 @@ class Forecast extends StatelessWidget {
       children: <Widget>[
         new BackgroundWithRings(),
 
+        _temperatureText(),
 
-        _tempratureText(),
+        new SlidingRadialList(
+          radialList: radialList,
+          controller: slidingListController,
+        ),
 
-        //new RadialList()
+        new Rain(),
       ],
     );
   }

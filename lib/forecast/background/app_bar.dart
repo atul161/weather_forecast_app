@@ -13,10 +13,10 @@ class ForecastAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  new AppBar( //position has a child as appbar
+    return new AppBar(
       centerTitle: false,
-      backgroundColor: Colors.transparent, //now there is some background properties
-      elevation: 0.0, //the dark area of the appbar gets removed
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
       title: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -24,23 +24,23 @@ class ForecastAppBar extends StatelessWidget {
             text: selectedDay,
           ),
           new Text(
-            'Sacromento',
-            style:  new TextStyle(
-              color: Colors.blue,
+            'Sacramento',
+            style: new TextStyle(
+              color: Colors.white,
               fontSize: 30.0,
             ),
           ),
         ],
       ),
-      actions: <Widget>[ //appbar provides us with actions and here we can stack up number of icons
+      actions: <Widget>[
         new IconButton(
           icon: new Icon(
             Icons.arrow_forward_ios,
-            color: Colors.blue,
+            color: Colors.white,
             size: 35.0,
           ),
           onPressed: onDrawerArrowTap,
-        ),
+        )
       ],
     );
   }

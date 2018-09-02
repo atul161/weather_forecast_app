@@ -16,7 +16,7 @@ class SlidingDrawer extends StatelessWidget {
     return new Stack(
       children: <Widget>[
         new GestureDetector(
-            onTap: openableController.isOpened()
+            onTap: openableController.isOpen()
                 ? openableController.close
                 : null
         ),
@@ -24,7 +24,7 @@ class SlidingDrawer extends StatelessWidget {
           translation: new Offset(1.0 - openableController.percentOpen, 0.0),
           child: new Align(
             alignment: Alignment.centerRight,
-            child:drawer,
+            child: drawer,
           ),
         ),
       ],
@@ -32,8 +32,7 @@ class SlidingDrawer extends StatelessWidget {
   }
 }
 
-
-class OpenableController extends ChangeNotifier{
+class OpenableController extends ChangeNotifier {
 
   OpenableState _state = OpenableState.closed;
   AnimationController _opening;
@@ -43,32 +42,33 @@ class OpenableController extends ChangeNotifier{
     @required Duration openDuration,
   }) : _opening = new AnimationController(duration: openDuration, vsync: vsync) {
     _opening
-      ..addListener(notifyListeners) //will be called everytime the aniamtion changes
-      ..addStatusListener((AnimationStatus status){ //called when the animation essentially starts or stops
-        switch(status) {
+      ..addListener(notifyListeners)
+      ..addStatusListener((AnimationStatus status) {
+        switch (status) {
           case AnimationStatus.forward:
             _state = OpenableState.opening;
             break;
           case AnimationStatus.completed:
-            _state = OpenableState.opened;
+            _state = OpenableState.open;
             break;
           case AnimationStatus.reverse:
             _state = OpenableState.closing;
             break;
-          case AnimationStatus.dismissed: //just reached the end of the reverse direction
+          case AnimationStatus.dismissed:
             _state = OpenableState.closed;
             break;
         }
         notifyListeners();
       });
+
   }
 
   get state => _state;
 
-  get percentOpen => _opening.value; //this is form being closed to getting opened
+  get percentOpen => _opening.value;
 
-  bool isOpened() {
-    return _state == OpenableState.opened;
+  bool isOpen() {
+    return _state == OpenableState.open;
   }
 
   bool isOpening() {
@@ -83,29 +83,26 @@ class OpenableController extends ChangeNotifier{
     return _state == OpenableState.closing;
   }
 
-  //now to make the actions of opening and closing to take place
-  void open () {
+  void open() {
     _opening.forward();
   }
 
-  void close () {
+  void close() {
     _opening.reverse();
   }
 
-  void toggle () {
-    if(isClosed()) {
+  void toggle() {
+    if (isClosed()) {
       open();
-    }
-    else if(isOpened()){
+    } else if (isOpen()) {
       close();
     }
   }
-
 }
 
 enum OpenableState {
   closed,
   opening,
-  opened,
+  open,
   closing,
 }

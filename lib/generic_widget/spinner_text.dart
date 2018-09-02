@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SpinnerText extends StatefulWidget { //stateful widgets stay for long where as the stateless ones rebuild everytime
+class SpinnerText extends StatefulWidget {
 
   final String text;
 
@@ -9,41 +9,40 @@ class SpinnerText extends StatefulWidget { //stateful widgets stay for long wher
   });
 
   @override
-  _SpinnerTextState createState() => _SpinnerTextState();
+  _SpinnerTextState createState() => new _SpinnerTextState();
 }
 
-class _SpinnerTextState extends State<SpinnerText> with SingleTickerProviderStateMixin{
+class _SpinnerTextState extends State<SpinnerText> with SingleTickerProviderStateMixin {
 
   String topText = '';
   String bottomText = '';
-  AnimationController _spinTextAnimationController; //runs the animation
-  Animation<double> _spinAnimation; //produces the value
-
+  AnimationController _spinTextAnimationController;
+  Animation<double> _spinAnimation;
 
   @override
   void initState() {
     super.initState();
 
     bottomText = widget.text;
+
     _spinTextAnimationController = new AnimationController(
       duration: const Duration(milliseconds: 750),
       vsync: this,
     )
-    ..addListener(() => setState((){})) //everytime the animation updates we want to rerender which means call an update
-    ..addStatusListener((AnimationStatus status){
-      if(status == AnimationStatus.completed){
-        setState(() {
-          bottomText = topText;
-          topText = '';
-          _spinTextAnimationController.value = 0.0;
-        });
-      }
-    });
+      ..addListener(() => setState(() {}))
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          setState(() {
+            bottomText = topText;
+            topText = '';
+            _spinTextAnimationController.value = 0.0;
+          });
+        }
+      });
 
-    //now the spin animation
     _spinAnimation = new CurvedAnimation(
-        parent: _spinTextAnimationController, //the thing that actually runs the animation
-        curve: Curves.elasticInOut,
+      parent: _spinTextAnimationController,
+      curve: Curves.elasticInOut,
     );
   }
 
@@ -57,8 +56,8 @@ class _SpinnerTextState extends State<SpinnerText> with SingleTickerProviderStat
   void didUpdateWidget(SpinnerText oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if(widget.text != oldWidget.text){
-      //need to spin new value
+    if (widget.text != oldWidget.text) {
+      // Need to spin new value.
       topText = widget.text;
       _spinTextAnimationController.forward();
     }
@@ -67,7 +66,7 @@ class _SpinnerTextState extends State<SpinnerText> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return new ClipRect(
-      clipper: new RectClipper(), //cliprect takes a custom clipper
+      clipper: new RectClipper(),
       child: new Stack(
         children: <Widget>[
           new FractionalTranslation(
